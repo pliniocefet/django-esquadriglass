@@ -27,7 +27,7 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 return redirect("/")
-            else:    
+            else:
                 msg = 'Invalid credentials'    
         else:
             msg = 'Error validating the form'    

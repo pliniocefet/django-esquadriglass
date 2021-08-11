@@ -1,25 +1,50 @@
-version: '3'
+version: '3.8'
 services:
+  db:
+    container_name: DJANGO-POSTGRES
+    image: postgres:13
+    ports: 
+        - 5432:5432
+    environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DB=postgres
+    volumes: 
+      - postgres_data:/var/lib/postgresql/data/
+    networks:
+      - db_network
   appseed-app:
+    container_name: DJANGO-APP
+    command: bash -c "python manage.py collectstatic --noinput && python manage.py makemigrations && python manage.py migrate && gunicorn core.wsgi -b 0.0.0.0:5005"
+    depends_on:
+      - db
+    links: 
+      - db:db
     restart: always
     env_file: .env
     build: .
+    volumes:
+    - /static:/static
     ports:
       - "5005:5005"
     networks:
       - db_network
       - web_network
   nginx:
+    container_name: DJANGO-NGINX
     restart: always
-    image: "nginx:latest"
+    image: "nginx:1.19-alpine"
     ports:
       - "85:85"
     volumes:
       - ./nginx:/etc/nginx/conf.d
+      - /static:/static
     networks:
       - web_network
     depends_on: 
       - appseed-app
+volumes:
+  postgres_data:
 networks:
   db_network:
     driver: bridge

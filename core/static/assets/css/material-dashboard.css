@@ -15388,11 +15388,12 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 }
 
 .sidebar .logo p {
-  float: left;
-  font-size: 20px;
+  float: none;
+  font-size: 30px;
   margin: 10px 10px;
-  color: #fff;
-  line-height: 20px;
+  margin-left: 30px;
+  color: #000;
+  line-height: 5px;
 }
 
 .sidebar .logo .simple-text {
@@ -19752,4 +19753,3 @@ Copyright (c) 2015 Daniel Eden
     display: none !important;
   }
 }
-
