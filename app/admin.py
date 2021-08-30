@@ -4,6 +4,10 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from django.contrib import admin
+from .models import Teste
+
+
+admin.site.register(Teste)
 
 
 # Register your models here.
